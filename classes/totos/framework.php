@@ -44,7 +44,7 @@ class framework extends \xd__framework
 $GLOBALS[__NAMESPACE__] = new framework(
   array(
     'plugin_root_ns' => __NAMESPACE__, // The root namespace
-    'plugin_var_ns'  => 'skz',
+    'plugin_var_ns'  => 'tts',
     'plugin_cap'     => 'manage_options',
     'plugin_name'    => 'Totos.gr XML Feed',
     'plugin_version' => '150110',

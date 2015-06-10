@@ -19,58 +19,57 @@ class xml extends \xd_v141226_dev\xml
     /**
      * @var array
      */
-    protected $skzXMLFields
+    protected $ttsXMLFields
       = array(
-        'id',
-        'name',
-        'link',
-        'image',
-        'category',
-        'price_with_vat',
-        'instock',
-        'availability',
-        'manufacturer',
-        'mpn',
-        'isbn',
-        'size',
-        'color',
+        'UniqueID',
+        'Name',
+        'Link',
+        'Image',
+        'Category',
+        'Price_with_vat',
+        'Stock',
+        'Availability',
+        'Manufacturer',
+        'MPN',
+        'ISBN',
+        'Size',
+        'Color',
       );
 
     /**
      * @var array
      */
-    protected $skzXMLFieldsLengths
+    protected $ttsXMLFieldsLengths
       = array(
-        'id'             => 200,
-        'name'           => 300,
-        'link'           => 1000,
-        'image'          => 400,
-        'category'       => 250,
-        'price_with_vat' => 0,
-        'instock'        => 0,
-        'availability'   => 60,
-        'manufacturer'   => 100,
-        'mpn'            => 80,
-        'isbn'           => 80,
-        'size'           => 500,
-        'color'          => 100,
+        'UniqueID'             => 200,
+        'Name'           => 300,
+        'Link'           => 1000,
+        'Image'          => 400,
+        'Category'       => 250,
+        'Price_with_vat' => 0,
+        'Stock'        => 0,
+        'Availability'   => 60,
+        'Manufacturer'   => 100,
+        'MPN'            => 80,
+        'ISBN'           => 80,
+        'Size'           => 500,
+        'Color'          => 100,
       );
 
     /**
      * @var array
      */
-    protected $skzXMLRequiredFields
+    protected $ttsXMLRequiredFields
       = array(
-        'id',
-        'name',
-        'link',
-        'image',
-        'category',
-        'price_with_vat',
-        'instock',
-        'availability',
-        'manufacturer',
-        'mpn',
+        'UniqueID',
+        'Name',
+        'Link',
+        'Image',
+        'Category',
+        'Price_with_vat',
+        'Stock',
+        'Availability',
+        'Manufacturer',
       );
 
     /**
@@ -182,10 +181,10 @@ class xml extends \xd_v141226_dev\xml
      */
     protected function validateArrayKeys(Array $array)
     {
-        foreach ($this->skzXMLRequiredFields as $fieldName) {
+        foreach ($this->ttsXMLRequiredFields as $fieldName) {
             if (!isset($array[$fieldName]) || empty($array[$fieldName])) {
                 $fields = array();
-                foreach ($this->skzXMLRequiredFields as $f) {
+                foreach ($this->ttsXMLRequiredFields as $f) {
                     if (!isset($array[$f]) || empty($array[$f])) {
                         array_push($fields, $f);
                     }
@@ -207,7 +206,7 @@ class xml extends \xd_v141226_dev\xml
         }
 
         foreach ($array as $k => $v) {
-            if (!in_array($k, $this->skzXMLFields)) {
+            if (!in_array($k, $this->ttsXMLFields)) {
                 unset($array[$k]);
             }
         }
@@ -236,15 +235,15 @@ class xml extends \xd_v141226_dev\xml
      */
     protected function trimField($value, $fieldName)
     {
-        if (!isset($this->skzXMLFieldsLengths[$fieldName])) {
+        if (!isset($this->ttsXMLFieldsLengths[$fieldName])) {
             return false;
         }
 
-        if ($this->skzXMLFieldsLengths[$fieldName] === 0) {
+        if ($this->ttsXMLFieldsLengths[$fieldName] === 0) {
             return $value;
         }
 
-        return substr((string)$value, 0, $this->skzXMLFieldsLengths[$fieldName]);
+        return substr((string)$value, 0, $this->ttsXMLFieldsLengths[$fieldName]);
     }
 
     /**
