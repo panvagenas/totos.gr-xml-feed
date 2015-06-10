@@ -189,7 +189,7 @@ class xml extends \xd_v141226_dev\xml
                         array_push($fields, $f);
                     }
                 }
-                $name = isset($array['name']) ? $array['name'] : (isset($array['id']) ? 'with id '.$array['id'] : '');
+                $name = isset($array['Name']) ? $array['Name'] : (isset($array['UniqueID']) ? 'with id '.$array['UniqueID'] : '');
                 $this->©diagnostic->forceDBLog(
                   'product',
                   $array,
