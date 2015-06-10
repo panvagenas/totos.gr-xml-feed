@@ -41,13 +41,13 @@ class xml extends \xd_v141226_dev\xml
      */
     protected $ttsXMLFieldsLengths
       = array(
-        'UniqueID'             => 200,
+        'UniqueID'       => 200,
         'Name'           => 300,
         'Link'           => 1000,
         'Image'          => 400,
         'Category'       => 250,
         'Price_with_vat' => 0,
-        'Stock'        => 0,
+        'Stock'          => 0,
         'Availability'   => 60,
         'Manufacturer'   => 100,
         'MPN'            => 80,
