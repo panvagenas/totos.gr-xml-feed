@@ -198,14 +198,14 @@ class totos extends framework
     {
         $out = array();
 
-        $out['UniqueID']             = $this->getProductId($product);
+        $out['UniqueID']       = $this->getProductId($product);
         $out['MPN']            = $this->getProductMPN($product);
         $out['Name']           = $this->getProductName($product);
         $out['Link']           = $this->getProductLink($product);
         $out['Image']          = $this->getProductImageLink($product);
         $out['Category']       = $this->getProductCategories($product);
         $out['Price_with_vat'] = $this->getProductPrice($product);
-        $out['Stock']        = $this->isInStock($product);
+        $out['Stock']          = $this->isInStock($product);
         $out['Availability']   = $this->getAvailabilityString($product);
         $out['Manufacturer']   = $this->getProductManufacturer($product);
         // TODO Get product Description
