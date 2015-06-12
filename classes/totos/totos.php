@@ -247,34 +247,27 @@ class totos extends framework
             return null;
         }
 
-        $map = $this->©option->get('map_size');
+        $map = $this->©option->get('map_color');
         if (empty($map)) {
             return array();
         }
 
         $variations = $product->get_available_variations();
-        $colors     = array();
+        $colors     = '';
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
 
             if (!$taxonomy) {
                 break;
             }
-
-            foreach ($variations as $variation) {
-                $key = 'attribute_'.wc_attribute_taxonomy_name($taxonomy->attribute_name);
-                if (isset($variation['attributes'][$key]) && $variation['is_in_stock'] && $variation['is_purchasable']) {
-                    $color = $this->sanitizeVariationString($variation['attributes'][$key]);
-                    if (!empty($color)) {
-                        $colors[] = $color;
-                    }
-                }
+            $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
+            $attr = $product->get_attribute($attrName);
+            if(is_string($attr) && !empty($attr)){
+                $colors .= empty($sizes) ? $attr : ", $sizes";
             }
         }
 
-        $colors = array_unique($colors);
-
-        return implode(', ', $colors);
+        return $colors;
     }
 
     /**
@@ -333,7 +326,7 @@ class totos extends framework
         }
 
         $variations = $product->get_available_variations();
-        $sizes      = array();
+        $sizes      = '';
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
 
@@ -341,19 +334,14 @@ class totos extends framework
                 break;
             }
 
-            foreach ($variations as $variation) {
-                $key = 'attribute_'.wc_attribute_taxonomy_name($taxonomy->attribute_name);
-                if (isset($variation['attributes'][$key]) && $variation['is_in_stock'] && $variation['is_purchasable']) {
-                    $size = $this->sanitizeVariationString($variation['attributes'][$key]);
-                    if ($this->isValidSizeString($size)) {
-                        $sizes[] = $size;
-                    }
-                }
+            $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
+            $attr = $product->get_attribute($attrName);
+            if(is_string($attr) && !empty($attr)){
+                $sizes .= empty($sizes) ? $attr : ", $sizes";
             }
         }
-        $sizes = array_unique($sizes);
 
-        return implode(', ', $sizes);
+        return $sizes;
     }
 
     /**
