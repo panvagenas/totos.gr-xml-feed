@@ -252,7 +252,6 @@ class totos extends framework
             return array();
         }
 
-        $variations = $product->get_available_variations();
         $colors     = '';
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
@@ -325,7 +324,6 @@ class totos extends framework
             return array();
         }
 
-        $variations = $product->get_available_variations();
         $sizes      = '';
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
