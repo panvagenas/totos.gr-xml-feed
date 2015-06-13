@@ -252,21 +252,39 @@ class totos extends framework
             return array();
         }
 
-        $colors     = '';
+        $variations = $product->get_available_variations();
+        $colors     = array();
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
 
             if (!$taxonomy) {
                 break;
             }
-            $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
-            $attr = $product->get_attribute($attrName);
-            if(is_string($attr) && !empty($attr)){
-                $colors .= empty($sizes) ? $attr : ", $sizes";
+
+            foreach ($variations as $variation) {
+                $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
+                $key = 'attribute_'.$attrName;
+                if (isset($variation['attributes'][$key]) && $variation['is_in_stock'] && $variation['is_purchasable']) {
+                    if(empty($variation['attributes'][$key])){
+                        $attr = $product->get_attribute($attrName);
+                        if(is_string($attr) && !empty($attr)){
+                            $attrValues = array_map('trim',explode(',', $attr));
+                            $colors = array_merge($colors, $attrValues);
+                            break;
+                        }
+                    } else {
+                        $color = $variation['attributes'][$key];
+                        if (!empty($color)) {
+                            $colors[] = $color;
+                        }
+                    }
+                }
             }
         }
 
-        return $colors;
+        $colors = array_unique($colors);
+
+        return implode(', ', $colors);
     }
 
     /**
@@ -324,7 +342,8 @@ class totos extends framework
             return array();
         }
 
-        $sizes      = '';
+        $variations = $product->get_available_variations();
+        $sizes      = array();
         foreach ($map as $attrId) {
             $taxonomy = $this->getTaxonomyById($attrId);
 
@@ -332,29 +351,26 @@ class totos extends framework
                 break;
             }
 
-            $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
-            $attr = $product->get_attribute($attrName);
-            if(is_string($attr) && !empty($attr)){
-                $sizes .= empty($sizes) ? $attr : ", $sizes";
+            foreach ($variations as $variation) {
+                $attrName = wc_attribute_taxonomy_name($taxonomy->attribute_name);
+                $key = 'attribute_'.$attrName;
+                if (isset($variation['attributes'][$key]) && $variation['is_in_stock'] && $variation['is_purchasable']) {
+                    if(empty($variation['attributes'][$key])){
+                        $attr = $product->get_attribute($attrName);
+                        if(is_string($attr) && !empty($attr)){
+                            $attrValues = array_map('trim',explode(',', $attr));
+                            $sizes = array_merge($sizes, $attrValues);
+                            break;
+                        }
+                    } else {
+                        $sizes[] = $variation['attributes'][$key];
+                    }
+                }
             }
         }
+        $sizes = array_unique($sizes);
 
-        return $sizes;
-    }
-
-    /**
-     * @param $string
-     *
-     * @return mixed|string
-     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-     * @since  150610
-     */
-    protected function sanitizeVariationString($string)
-    {
-        $string = preg_replace("/[^A-Za-z0-9 ]/", '.', strip_tags(trim($string)));
-        $string = strtoupper($string);
-
-        return $string;
+        return implode(', ', $sizes);
     }
 
     /**
