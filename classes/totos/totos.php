@@ -273,9 +273,9 @@ class totos extends framework
                             break;
                         }
                     } else {
-                        $color = $variation['attributes'][$key];
-                        if (!empty($color)) {
-                            $colors[] = $color;
+                        $term = get_terms($attrName, array('fields' => 'names', 'slug' => $variation['attributes'][$key]));
+                        if(!is_wp_error($term) && !empty($term)){
+                            $colors[] = array_pop($term);
                         }
                     }
                 }
@@ -363,7 +363,10 @@ class totos extends framework
                             break;
                         }
                     } else {
-                        $sizes[] = $variation['attributes'][$key];
+                        $term = get_terms($attrName, array('fields' => 'names', 'slug' => $variation['attributes'][$key]));
+                        if(!is_wp_error($term) && !empty($term)){
+                            $sizes[] = array_pop($term);
+                        }
                     }
                 }
             }
