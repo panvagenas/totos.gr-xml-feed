@@ -41,7 +41,7 @@ Text Domain: totos-xml-feed
 Domain Path: /translations
 
 Plugin Name: Totos.gr XML Feed
-Plugin URI: https://github.com/panvagenas/totos-xml-feed
+Plugin URI: https://github.com/panvagenas/totos.gr-xml-feed
 
 Description: Generate XML sheet according to totos.gr specs
 

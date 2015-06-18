@@ -41,9 +41,4 @@ Please consult WordPress plugin [installation guide](https://codex.wordpress.org
 
 #### 150610
 
-* Fixed: Unpublished products were included in XML
-* Optimized default options
-
-#### 150610
-
 * Initial release

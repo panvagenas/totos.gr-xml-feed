@@ -41,9 +41,4 @@ along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.
 
 #### 150610
 
-* Fixed: Unpublished products were included in XML
-* Optimized default options
-
-#### 150610
-
 * Initial release
