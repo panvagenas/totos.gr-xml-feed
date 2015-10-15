@@ -67,11 +67,11 @@ class totos extends framework
 
         $this->©option->update(array('log' => array()));
 
-        $this->©diagnostic->forceDBLog('product', array(), '<strong>Totos XML generation started at '.date('d M, Y H:i:s').'</strong>');
+        $this->©success->forceDBLog('product', array(), '<strong>Totos XML generation started at '.date('d M, Y H:i:s').'</strong>');
 
         $prodInXml = $this->processProducts();
 
-        $this->©diagnostic->forceDBLog('product', array(), '<strong>Totos XML generation finished at '.date('d M, Y H:i:s').'</strong><br>Time taken: '.round(microtime(true) - $sTime, 2).' sec<br>Mem details: '.$this->©env->memory_details());
+        $this->©success->forceDBLog('product', array(), '<strong>Totos XML generation finished at '.date('d M, Y H:i:s').'</strong><br>Time taken: '.round(microtime(true) - $sTime, 2).' sec<br>Mem details: '.$this->©env->memory_details());
 
         return $prodInXml;
     }
@@ -119,12 +119,9 @@ class totos extends framework
     {
         $prodArray = (array)$this->©db->get_col('SELECT ID FROM '.$this->©db->posts.' WHERE post_type="product" AND post_status="publish"');
 
+        $this->©env->maximize_time_memory_limits();
+
         $mem = $this->getMemInM(ini_get('memory_limit')) / 1024 / 1024;
-
-        $time = max(ceil(count($prodArray) * 0.5), 30);
-        set_time_limit($time);
-
-        $this->©diagnostic->forceDBLog('product', array(), 'Memory set to '.$mem.'M for current session<br>Time set to '.$time.' sec for current session');
 
         $memLimit = ($mem - 10) * 1024 * 1024;
 
@@ -137,7 +134,7 @@ class totos extends framework
             $product = WC()->product_factory->get_product((int)$pid);
 
             if (!is_object($product) || !($product instanceof \WC_Product)) {
-                $this->©diagnostic->forceDBLog('product', $product, 'Product failed in '.__METHOD__);
+                $this->©error->forceDBLog('product', $product, 'Product failed in '.__METHOD__);
                 continue;
             }
 
@@ -152,7 +149,7 @@ class totos extends framework
                 if ($this->getAvailabilityString($product) === false) {
                     $reason[] = 'product is unavailable';
                 }
-                $this->©diagnostic->forceDBLog(
+                $this->©message->forceDBLog(
                   'product', array(
                   'id'             => $product->id,
                   'SKU'            => $product->get_sku(),
@@ -617,22 +614,35 @@ class totos extends framework
      * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
      * @since  150610
      */
-    protected function getAvailabilityString(\WC_Product &$product)
-    {
-        // If product is in stock
-        if ($product->is_in_stock()) {
-            return $this->©option->availOptions[$this->©option->get('avail_inStock')];
-        } elseif ($product->backorders_allowed()) {
-            // if product is out of stock and no backorders then return false
-            if ($this->©option->get('avail_backorders') == count($this->©option->availOptions)) {
-                return false;
-            }
+    protected function getAvailabilityString( \WC_Product &$product ) {
+        $stockStatusInStock = $product->stock_status === 'instock';
+        $manageStock        = $product->managing_stock();
+        $backOrdersAllowed  = $product->backorders_allowed();
+        $hasQuantity        = $product->get_stock_quantity() > 0;
 
-            // else return value
-            return $this->©option->availOptions[$this->©option->get('avail_backorders')];
-        } elseif ($this->©option->get('avail_outOfStock') != count($this->©option->availOptions)) {
-            // no stock, no backorders but must include product. Return value
-            return $this->©option->availOptions[$this->©option->get('avail_outOfStock')];
+        if ( $manageStock ) {
+            if ( $hasQuantity ) {
+                return $this->©option->availOptions[ $this->©option->get( 'avail_inStock' ) ];
+            } elseif ( ! $backOrdersAllowed ) {
+                if ( $this->©option->get( 'avail_outOfStock' ) == count( $this->©option->availOptions ) ) {
+                    return false;
+                }
+                return $this->©option->availOptions[ $this->©option->get( 'avail_outOfStock' ) ];
+            } else {
+                if ( $this->©option->get( 'avail_backorders' ) == count( $this->©option->availOptions ) ) {
+                    return false;
+                }
+                return $this->©option->availOptions[ $this->©option->get( 'avail_backorders' ) ];
+            }
+        } else {
+            if ( $stockStatusInStock ) {
+                return $this->©option->availOptions[ $this->©option->get( 'avail_inStock' ) ];
+            } elseif ( $backOrdersAllowed ) {
+                if ( $this->©option->get( 'avail_backorders' ) == count( $this->©option->availOptions ) ) {
+                    return false;
+                }
+                return $this->©option->availOptions[ $this->©option->get( 'avail_backorders' ) ];
+            }
         }
 
         return false;
@@ -751,5 +761,26 @@ class totos extends framework
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+     * @since 150707
+     */
+    public function hasBrandsPlugin(){
+        return is_plugin_active('woocommerce-brands/woocommerce-brands.php') && taxonomy_exists('product_brand');
+    }
+
+    /**
+     * @return bool|null|object
+     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+     * @since 150707
+     */
+    public function getBrandsPluginTaxonomy(){
+        if($this->hasBrandsPlugin()){
+            return get_taxonomy('product_brand');
+        }
+        return null;
     }
 }

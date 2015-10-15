@@ -190,7 +190,7 @@ class xml extends \xd_v141226_dev\xml
                     }
                 }
                 $name = isset($array['Name']) ? $array['Name'] : (isset($array['UniqueID']) ? 'with id '.$array['UniqueID'] : '');
-                $this->©diagnostic->forceDBLog(
+                $this->©error->forceDBLog(
                   'product',
                   $array,
                   'Product <strong>'.$name.'</strong> not included in XML file because field(s) '.implode(', ', $fields).' is/are missing or is invalid'
@@ -243,7 +243,7 @@ class xml extends \xd_v141226_dev\xml
             return $value;
         }
 
-        return substr((string)$value, 0, $this->ttsXMLFieldsLengths[$fieldName]);
+        return mb_substr((string)$value, 0, $this->ttsXMLFieldsLengths[$fieldName]);
     }
 
     /**
