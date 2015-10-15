@@ -19,9 +19,9 @@
 
 /* -- WordPress® --------------------------------------------------------------------------------------------------------------------------
 
-Version: 150610
-Stable tag: 150610
-Tested up to: 4.2.2
+Version: 151015
+Stable tag: 151015
+Tested up to: 4.3.1
 Requires at least: 3.5.1
 
 Requires at least Apache version: 2.1

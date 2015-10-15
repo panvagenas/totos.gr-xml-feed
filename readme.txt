@@ -2,8 +2,8 @@
 Contributors: pan.vagenas
 Tags: feed, generate xml, price comparison, totos, totos.gr, xml, xml feed
 Requires at least: 3.5.1
-Tested up to: 4.2.2
-Stable tag: 150610
+Tested up to: 4.3.1
+Stable tag: 151015
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -34,6 +34,12 @@ Please consult WordPress plugin [installation guide](https://codex.wordpress.org
 == Screenshots ==
 
 == Changelog ==
+
+#### 151015
+
+* Fixed: Availability when product is out of stock and/or backorders allowed
+* Fixed: Options submitting bug when XML path were empty
+* New: WooCommerce Brands Addon support
 
 #### 150610
 
