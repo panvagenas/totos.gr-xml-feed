@@ -10,8 +10,8 @@ namespace totos\menu_pages\panels;
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-if (!defined('WPINC')) {
-    exit('Do NOT access this file directly: '.basename(__FILE__));
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
 /**
@@ -19,33 +19,31 @@ if (!defined('WPINC')) {
  * @package randomizer\menu_pages\panels
  * @author  pan.vagenas <pan.vagenas@gmail.com>
  */
-class main_settings extends panel
-{
-    /**
-     * @var string Heading/title for this panel.
-     * @extenders Should be overridden by class extenders.
-     */
-    public $heading_title = 'Main settings';
+class main_settings extends panel {
+	/**
+	 * @var string Heading/title for this panel.
+	 * @extenders Should be overridden by class extenders.
+	 */
+	public $heading_title = 'Main settings';
 
-    /**
-     * @var string Content/body for this panel.
-     * @extenders Should be overridden by class extenders.
-     */
-    public $content_body = '';
+	/**
+	 * @var string Content/body for this panel.
+	 * @extenders Should be overridden by class extenders.
+	 */
+	public $content_body = '';
 
-    /**
-     * @var string Additional documentation for this panel.
-     * @extenders Can be overridden by class extenders.
-     */
-    public $documentation = '';
+	/**
+	 * @var string Additional documentation for this panel.
+	 * @extenders Can be overridden by class extenders.
+	 */
+	public $documentation = '';
 
-    public function __construct($instance, $menu_page)
-    {
-        parent::__construct($instance, $menu_page);
+	public function __construct( $instance, $menu_page ) {
+		parent::__construct( $instance, $menu_page );
 
-        /**
-         * Add the content
-         */
-        $this->content_body = $this->©views->view($this, 'main_settings_panel.php');
-    }
+		/**
+		 * Add the content
+		 */
+		$this->content_body = $this->©views->view( $this, 'main_settings_panel.php' );
+	}
 }

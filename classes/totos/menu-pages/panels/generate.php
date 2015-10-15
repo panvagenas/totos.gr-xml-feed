@@ -8,38 +8,36 @@
 
 namespace totos\menu_pages\panels;
 
-if (!defined('WPINC')) {
-    exit('Do NOT access this file directly: '.basename(__FILE__));
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-class generate extends panel
-{
-    /**
-     * @var string Heading/title for this panel.
-     * @extenders Should be overridden by class extenders.
-     */
-    public $heading_title = 'Generate Now';
+class generate extends panel {
+	/**
+	 * @var string Heading/title for this panel.
+	 * @extenders Should be overridden by class extenders.
+	 */
+	public $heading_title = 'Generate Now';
 
-    /**
-     * @var string Content/body for this panel.
-     * @extenders Should be overridden by class extenders.
-     */
-    public $content_body = '';
+	/**
+	 * @var string Content/body for this panel.
+	 * @extenders Should be overridden by class extenders.
+	 */
+	public $content_body = '';
 
-    /**
-     * @var string Additional documentation for this panel.
-     * @extenders Can be overridden by class extenders.
-     */
-    public $documentation = '';
+	/**
+	 * @var string Additional documentation for this panel.
+	 * @extenders Can be overridden by class extenders.
+	 */
+	public $documentation = '';
 
-    public function __construct($instance, $menu_page)
-    {
-        parent::__construct($instance, $menu_page);
-        /**
-         * Add the content
-         */
-        $this->content_body = $this->©views->view($this, 'generate_panel.php');
-    }
+	public function __construct( $instance, $menu_page ) {
+		parent::__construct( $instance, $menu_page );
+		/**
+		 * Add the content
+		 */
+		$this->content_body = $this->©views->view( $this, 'generate_panel.php' );
+	}
 }
